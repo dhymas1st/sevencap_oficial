@@ -11,25 +11,28 @@ const ExchangeObligations = () => {
     const [pdf, setPdf] = useState(['']);
     const dados = JSON.parse(localStorage.getItem('dados'));
     const handlePdf = (e) => {
+        /* 
         const today = new Date();
         const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
         const dateTime = date + ' ' + time;
         const fileName = e.target.files[0].name;
         const file = { dateTime, fileName };
-        const arquivo = e.target.files[0];
         setPdf([file]);
         console.log(dateTime);
+        
+        */
         const cpf = dados.cpf.replace(/\./g, '').replace('-', '');
-
+        const arquivo = e.target.files[0];
         let formData = new FormData();
 
         formData.append('image', arquivo);
         formData.append('cpf', cpf);
+
         console.log(arquivo);
         console.log(formData);
 
-        api.post(`/uploadfile/${cpf}`, { formData })
+        api.post(`/uploadfile/${cpf}`, formData)
             .then((res) => {
                 console.log(arquivo);
                 console.log(res);
@@ -38,6 +41,8 @@ const ExchangeObligations = () => {
                 console.log('erro :', err);
             });
     };
+
+    //useState(() => {}, []);
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* row 1 */}

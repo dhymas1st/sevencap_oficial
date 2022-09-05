@@ -16,7 +16,7 @@ const CardImportNotes = ({ onChange }) => (
             </Stack>
             <Button variant="contained" component="label">
                 Importar nota
-                <input hidden accept="application/pdf" multiple={5} type="file" onChange={onChange} />
+                <input hidden accept="application/pdf" type="file" onChange={onChange} />
             </Button>
         </Stack>
     </Card>
