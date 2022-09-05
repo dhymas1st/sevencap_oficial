@@ -37,6 +37,8 @@ const AuthRegister = () => {
     const [level, setLevel] = useState();
     const [showPassword, setShowPassword] = useState(false);
     const [account, setAccount] = useState('');
+    const [criado, setCriado] = useState('');
+
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -55,18 +57,29 @@ const AuthRegister = () => {
     }, []);
 
     async function SignOn(values) {
-        const cadastro = await api.post('/login/register', {
-            nome: values.firstname,
-            sobrenome: values.lastname,
-            email: values.email,
-            senha: values.password
-        });
+        try {
+            const cadastro = await api.post('/login/register', {
+                nome: values.firstname,
+                sobrenome: values.lastname,
+                email: values.email,
+                senha: values.password
+            });
+            console.log(cadastro);
+            if (cadastro === 'usuario criado') {
+                alert('Cadastro criado com sucesso');
+            } else {
+                alert('Falha ao criar o cadastro, contato o adminsitrador');
+            }
 
-        console.log(cadastro);
-        if (cadastro.data === 'usuario criado') {
-            return <Navigate to="/login" />;
+            setCriado('usuario criado');
+        } catch (err) {
+            alert('Falha ao criar o cadastro, contato o adminsitrador');
+            console.log('nao foi');
+            setAccount('email já utilizado!');
         }
-        setAccount('email já utilizado!');
+    }
+    if (criado === 'usuario criado') {
+        return <Navigate to="/login" />;
     }
     return (
         <>

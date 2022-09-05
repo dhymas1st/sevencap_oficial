@@ -11,6 +11,7 @@ const ExchangeObligations = () => {
     const [pdf, setPdf] = useState(['']);
     const dados = JSON.parse(localStorage.getItem('dados'));
     const handlePdf = (e) => {
+        /* 
         const today = new Date();
         const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
@@ -19,17 +20,31 @@ const ExchangeObligations = () => {
         const file = { dateTime, fileName };
         setPdf([file]);
         console.log(dateTime);
-        console.log(e.target.files);
+        
+        */
         const cpf = dados.cpf.replace(/\./g, '').replace('-', '');
-        const EnviaPDF = async () => {
-            await api.post(`/uploadfile/${cpf}`, {
-                image: pdf,
-                cpf: cpf
+        const arquivo = e.target.files[0];
+        let formData = new FormData();
+
+        formData.append('image', arquivo);
+        formData.append('cpf', cpf);
+
+        console.log(arquivo);
+        console.log(formData);
+
+        api.post(`/uploadfile/${cpf}`, formData)
+            .then((res) => {
+                console.log(arquivo);
+                console.log(res);
+                alert('Nota Recebida com sucesso');
+            })
+            .catch((err) => {
+                console.log('erro :', err);
+                alert('Falha ao receber nota');
             });
-        };
-        console.log(EnviaPDF());
     };
-    console.log(pdf);
+
+    //useState(() => {}, []);
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* row 1 */}

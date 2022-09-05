@@ -110,6 +110,7 @@ const Form = () => {
             uf: values.esado
         });
         localStorage.setItem('dados', JSON.stringify(atualizar.data[0]));
+        alert('Perfil atualizado com sucesso')
     }
     /*
     const handleChange = (event) => {
