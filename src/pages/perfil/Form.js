@@ -16,7 +16,10 @@ import {
     InputLabel,
     OutlinedInput,
     Stack,
-    Typography
+    Typography,
+    Select,
+    MenuItem,
+    NativeSelect
 } from '@mui/material';
 
 // third party
@@ -31,6 +34,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import api from 'services/api';
+import { TextField } from '../../../node_modules/@mui/material/index';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
@@ -54,6 +58,7 @@ const Form = () => {
     useEffect(() => {
         changePassword('');
     }, []);
+
     /*
     (() => {
     })();
@@ -102,15 +107,36 @@ const Form = () => {
             numero: values.numero,
             complemento: values.complemento,
             cidade: values.cidade,
-            uf: values.estado
+            uf: values.esado
         });
-        console.log(values.cep);
         localStorage.setItem('dados', JSON.stringify(atualizar.data[0]));
+<<<<<<< HEAD
 
         console.log(atualizar.data[0]);
 
+=======
+>>>>>>> 5a7d967c22b5fec13d216052fb5b12fe0a22ff05
     }
-
+    /*
+    const handleChange = (event) => {
+        console.log(event.target.value);
+        setGenero(event.target.value);
+    };
+    */
+    /*
+                                    <Select
+                                        value={genero}
+                                        onChange={handleChange}
+                                        displayEmpty
+                                        inputProps={{ 'aria-label': 'Without label' }}
+                                    >
+                                        <MenuItem value="">
+                                            <em></em>
+                                        </MenuItem>
+                                        <MenuItem value={'Masculino'}>Masculino</MenuItem>
+                                        <MenuItem value={'Feminino'}>Feminino</MenuItem>
+                                    </Select>
+                                    */
     return (
         <>
             <Formik
@@ -271,18 +297,37 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Stack spacing={1}>
+<<<<<<< HEAD
                                     <InputLabel htmlFor="genero">Gênero</InputLabel>
                                     <OutlinedInput
+=======
+                                    <InputLabel htmlFor="genero">Gênero*</InputLabel>
+
+                                    <Select
+>>>>>>> 5a7d967c22b5fec13d216052fb5b12fe0a22ff05
                                         id="genero"
-                                        type="genero"
                                         value={values.genero}
+                                        defaultValue={values.genero}
                                         name="genero"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="Digite o seu genero"
                                         fullWidth
-                                        error={Boolean(touched.genero && errors.genero)}
-                                    />
+                                    >
+                                        {values.genero === 'Masculino' ? (
+                                            <MenuItem value={'Masculino'} selected>
+                                                Masculino
+                                            </MenuItem>
+                                        ) : (
+                                            <MenuItem value={'Feminino'} selected>
+                                                Feminino
+                                            </MenuItem>
+                                        )}
+                                        {values.genero === 'Feminino' ? (
+                                            <MenuItem value={'Masculino'}>Masculino</MenuItem>
+                                        ) : (
+                                            <MenuItem value={'Feminino'}>Feminino</MenuItem>
+                                        )}
+                                    </Select>
                                     {touched.genero && errors.genero && (
                                         <FormHelperText error id="helper-text-firstname-signup">
                                             {errors.genero}
