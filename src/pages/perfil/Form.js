@@ -139,9 +139,9 @@ const Form = () => {
                     firstname: Yup.string().max(255).required('Este campo é obrigatório'),
                     lastname: Yup.string().max(255).required('Este campo é obrigatório'),
                     cpf: Yup.string().max(255).required('Este campo é obrigatório'),
-                    nascimento: Yup.string().max(255).required('Este campo é obrigatório'),
+                    nascimento: Yup.string().max(255),
                     //email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    telefone: Yup.string().max(255).required('Este campo é obrigatório')
+                    telefone: Yup.string().max(255)
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     console.log('disparou!', values);
