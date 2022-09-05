@@ -67,20 +67,20 @@ const Form = () => {
     function nomea() {
         const infos = JSON.parse(localStorage.getItem('dados'));
         return {
-            firstname: infos.nome,
-            lastname: infos.sobrenome,
-            cpf: infos.cpf,
-            nascimento: infos.nascimento,
+            firstname: infos.nome ? infos.nome : '',
+            lastname: infos.sobrenome ? infos.sobrenome : '',
+            cpf: infos.cpf ? infos.cpf : '',
+            nascimento: infos.nascimento ? infos.nascimento : '',
             email: infos.email,
-            telefone: infos.telefone,
-            genero: infos.genero,
-            tipoendereco: infos.tipo_endereco,
-            cep: infos.cep,
-            logradouro: infos.logradouro,
-            numero: infos.numero,
-            complemento: infos.complemento,
-            cidade: infos.cidade,
-            estado: infos.uf,
+            telefone: infos.telefone ? infos.telefone : '',
+            genero: infos.genero ? infos.genero : '',
+            tipoendereco: infos.tipo_endereco ? infos.tipo_endereco : '',
+            cep: infos.cep ? infos.cep : '',
+            logradouro: infos.logradouro ? infos.logradouro : '',
+            numero: infos.numero ? infos.numero : '',
+            complemento: infos.complemento ? infos.complemento : '',
+            cidade: infos.cidade ? infos.cidade : '',
+            estado: infos.uf ? infos.uf : '',
             submit: null
         };
     }
