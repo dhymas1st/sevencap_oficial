@@ -36,9 +36,11 @@ const ExchangeObligations = () => {
             .then((res) => {
                 console.log(arquivo);
                 console.log(res);
+                alert('Nota Recebida com sucesso');
             })
             .catch((err) => {
                 console.log('erro :', err);
+                alert('Falha ao receber nota');
             });
     };
 
