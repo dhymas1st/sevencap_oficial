@@ -17,19 +17,27 @@ const ExchangeObligations = () => {
         const dateTime = date + ' ' + time;
         const fileName = e.target.files[0].name;
         const file = { dateTime, fileName };
+        const arquivo = e.target.files[0];
         setPdf([file]);
         console.log(dateTime);
-        console.log(e.target.files);
         const cpf = dados.cpf.replace(/\./g, '').replace('-', '');
-        const EnviaPDF = async () => {
-            await api.post(`/uploadfile/${cpf}`, {
-                image: pdf,
-                cpf: cpf
+
+        let formData = new FormData();
+
+        formData.append('image', arquivo);
+        formData.append('cpf', cpf);
+        console.log(arquivo);
+        console.log(formData);
+
+        api.post(`/uploadfile/${cpf}`, { formData })
+            .then((res) => {
+                console.log(arquivo);
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log('erro :', err);
             });
-        };
-        console.log(EnviaPDF());
     };
-    console.log(pdf);
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* row 1 */}
