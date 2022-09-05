@@ -17,9 +17,9 @@ const HeaderContent = () => {
         <>
             {!matchesXs && <Search />}
             {matchesXs && <Box sx={{ width: '100%', ml: 1 }} />}
-            <Button sx={{ width: '200px' }} variant="contained">
+            {/*<Button sx={{ width: '200px' }} variant="contained">
                 Assine o premium
-            </Button>
+    </Button>*/}
             <Notification />
             {!matchesXs && <Profile />}
             {matchesXs && <MobileSection />}
