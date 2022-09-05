@@ -110,12 +110,6 @@ const Form = () => {
             uf: values.esado
         });
         localStorage.setItem('dados', JSON.stringify(atualizar.data[0]));
-<<<<<<< HEAD
-
-        console.log(atualizar.data[0]);
-
-=======
->>>>>>> 5a7d967c22b5fec13d216052fb5b12fe0a22ff05
     }
     /*
     const handleChange = (event) => {
@@ -297,14 +291,8 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Stack spacing={1}>
-<<<<<<< HEAD
                                     <InputLabel htmlFor="genero">Gênero</InputLabel>
-                                    <OutlinedInput
-=======
-                                    <InputLabel htmlFor="genero">Gênero*</InputLabel>
-
                                     <Select
->>>>>>> 5a7d967c22b5fec13d216052fb5b12fe0a22ff05
                                         id="genero"
                                         value={values.genero}
                                         defaultValue={values.genero}
