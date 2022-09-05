@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
 import {
+    Alert,
     Box,
     Button,
     Divider,
@@ -107,6 +108,7 @@ const Form = () => {
         localStorage.setItem('dados', JSON.stringify(atualizar.data[0]));
 
         console.log(atualizar.data[0]);
+
     }
 
     return (
@@ -204,7 +206,7 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="nascimento">Data de nascimento*</InputLabel>
+                                    <InputLabel htmlFor="nascimento">Data de nascimento</InputLabel>
                                     <OutlinedInput
                                         id="nascimento"
                                         type="nascimento"
@@ -248,7 +250,7 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="telefone">Telefone*</InputLabel>
+                                    <InputLabel htmlFor="telefone">Telefone</InputLabel>
                                     <OutlinedInput
                                         id="telefone"
                                         type="telefone"
@@ -269,7 +271,7 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="genero">Gênero*</InputLabel>
+                                    <InputLabel htmlFor="genero">Gênero</InputLabel>
                                     <OutlinedInput
                                         id="genero"
                                         type="genero"
@@ -311,7 +313,7 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="tipoendereco">Tipo de endereço*</InputLabel>
+                                    <InputLabel htmlFor="tipoendereco">Tipo de endereço</InputLabel>
                                     <OutlinedInput
                                         id="tipoendereco"
                                         type="tipoendereco"
@@ -332,7 +334,7 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="logradouro">Logradouro*</InputLabel>
+                                    <InputLabel htmlFor="logradouro">Logradouro</InputLabel>
                                     <OutlinedInput
                                         id="logradouro"
                                         type="logradouro"
@@ -353,7 +355,7 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="numero">Número*</InputLabel>
+                                    <InputLabel htmlFor="numero">Número</InputLabel>
                                     <OutlinedInput
                                         id="numero"
                                         type="numero"
@@ -395,7 +397,7 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="cidade">Cidade*</InputLabel>
+                                    <InputLabel htmlFor="cidade">Cidade</InputLabel>
                                     <OutlinedInput
                                         id="cidade"
                                         type="cidade"
@@ -416,7 +418,7 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="cidade">Estado*</InputLabel>
+                                    <InputLabel htmlFor="cidade">Estado</InputLabel>
                                     <OutlinedInput
                                         id="estado"
                                         type="estado"
