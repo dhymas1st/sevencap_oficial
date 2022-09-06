@@ -6,7 +6,6 @@ const Perfil = () => {
         <>
             <h2>Perfil</h2>
             <Form />
-            <AlertSuccess />
         </>
     );
 };
