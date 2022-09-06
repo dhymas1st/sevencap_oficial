@@ -65,7 +65,7 @@ const AuthRegister = () => {
                 senha: values.password
             });
             console.log(cadastro);
-            if (cadastro === 'usuario criado') {
+            if (cadastro.data === 'usuario criado') {
                 alert('Cadastro criado com sucesso');
             } else {
                 alert('Falha ao criar o cadastro, contato o adminsitrador');
