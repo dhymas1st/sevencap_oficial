@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
+import { Navigate, Redirect } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -56,9 +57,12 @@ function a11yProps(index) {
 
 const Profile = () => {
     const theme = useTheme();
-
+    const [redir, setRedir] = useState(false);
     const handleLogout = async () => {
         // logout
+        localStorage.removeItem('dados');
+        localStorage.removeItem('logado');
+        setRedir(true);
     };
 
     const anchorRef = useRef(null);
@@ -86,6 +90,10 @@ const Profile = () => {
         let name = JSON.parse(localStorage.getItem('dados'));
         const nome = concat(name.nome.split(' ')[0], ' ', name.sobrenome.substr(0, 1).toUpperCase(), '.'); // aplicar regex
         return nome;
+    }
+
+    if (redir) {
+        return <Navigate to="/login" />;
     }
 
     return (
@@ -148,9 +156,9 @@ const Profile = () => {
                                                     <Stack direction="row" spacing={1.25} alignItems="center">
                                                         <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
                                                         <Stack>
-                                                            <Typography variant="h6">Erick Said</Typography>
+                                                            <Typography variant="h6">{getNome()}</Typography>
                                                             <Typography variant="body2" color="textSecondary">
-                                                                Empresário
+                                                                ...
                                                             </Typography>
                                                         </Stack>
                                                     </Stack>

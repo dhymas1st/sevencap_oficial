@@ -19,12 +19,6 @@ const ProfileTab = ({ handleLogout }) => {
         setSelectedIndex(index);
     };
 
-    const Logout = () => {
-        localStorage.removeItem('dados');
-        localStorage.removeItem('logado');
-        setLogoff(true);
-    };
-
     if (logoff) {
         console.log('deslogado');
 
@@ -58,7 +52,7 @@ const ProfileTab = ({ handleLogout }) => {
                 </ListItemIcon>
                 <ListItemText primary="Faturamento" />
             </ListItemButton>
-            <ListItemButton selected={selectedIndex === 2} onClick={Logout}>
+            <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
                 <ListItemIcon>
                     <LogoutOutlined />
                 </ListItemIcon>
