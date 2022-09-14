@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -12,11 +13,23 @@ import { EditOutlined, ProfileOutlined, LogoutOutlined, UserOutlined, WalletOutl
 
 const ProfileTab = ({ handleLogout }) => {
     const theme = useTheme();
-
+    const [logoff, setLogoff] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
+
+    const Logout = () => {
+        localStorage.removeItem('dados');
+        localStorage.removeItem('logado');
+        setLogoff(true);
+    };
+
+    if (logoff) {
+        console.log('deslogado');
+
+        return <Navigate to="/login" />;
+    }
 
     return (
         <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32, color: theme.palette.grey[500] } }}>
@@ -45,7 +58,7 @@ const ProfileTab = ({ handleLogout }) => {
                 </ListItemIcon>
                 <ListItemText primary="Faturamento" />
             </ListItemButton>
-            <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
+            <ListItemButton selected={selectedIndex === 2} onClick={Logout}>
                 <ListItemIcon>
                     <LogoutOutlined />
                 </ListItemIcon>
