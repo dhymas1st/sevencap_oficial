@@ -107,7 +107,7 @@ const Form = () => {
             numero: values.numero,
             complemento: values.complemento,
             cidade: values.cidade,
-            uf: values.esado
+            uf: values.estado
         });
         localStorage.setItem('dados', JSON.stringify(atualizar.data[0]));
         alert('Perfil atualizado com sucesso');
