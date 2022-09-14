@@ -650,16 +650,16 @@ api.post('/getResumoFinanceiro', {
                     paper: item.papper,
                     quantity: quantidade,
                     //vlr_unit: preco,
-                    vlr_unit: avg.toFixed(2),
-                    price: valor.toFixed(2),
+                    vlr_unit: avg.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    price: valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     tipo: tipo,
-                    emolumnts: emolumentos.toFixed(2),
-                    taxes: taxas.toFixed(2),
-                    total_taxes: TaxasTotal.toFixed(2),
-                    tx_liquid: taxasLiquida.toFixed(2),
-                    tx_operation: taxasOperacao.toFixed(2),
-                    tx_reg: taxasRegistro.toFixed(2),
-                    others: outros.toFixed(2)
+                    emolumnts: emolumentos.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    taxes: taxas.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    total_taxes: TaxasTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    tx_liquid: taxasLiquida.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    tx_operation: taxasOperacao.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    tx_reg: taxasRegistro.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    others: outros.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
                 };
             });
 
