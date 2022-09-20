@@ -2,6 +2,7 @@
 import { Grid, Typography } from '@mui/material';
 import CardImportNotes from './CardImportNotes';
 import OpeningBalance from './OpeningBalance';
+import ListImportedNotes from './ListImportedNotes';
 import { useState } from 'react';
 import api from 'services/api';
 
@@ -57,6 +58,7 @@ const ExchangeObligations = () => {
                         handlePdf(e);
                     }}
                 />
+                <ListImportedNotes />
             </Grid>
             {/*<Grid item xs={12} sm={6} md={4} lg={6}>
                 <OpeningBalance />
