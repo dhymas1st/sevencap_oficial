@@ -35,6 +35,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import api from 'services/api';
 import { TextField } from '../../../node_modules/@mui/material/index';
+import SnackbarAlert from 'components/SnackbarAlert';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
@@ -141,8 +142,16 @@ const Form = () => {
                     lastname: Yup.string().max(255).required('Este campo é obrigatório'),
                     cpf: Yup.string().max(255).required('Este campo é obrigatório'),
                     nascimento: Yup.string().max(255),
-                    //email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    telefone: Yup.string().max(255)
+                    email: Yup.string().email('Digite um e-mail válido').max(255).required('Este campo é obrigatório'),
+                    telefone: Yup.string().max(255),
+                    genero: Yup.string().max(255),
+                    cep: Yup.string().max(255).required('Este campo é obrigatório'),
+                    tipoendereco: Yup.string().max(255),
+                    logradouro: Yup.string().max(255).required('Este campo é obrigatório'),
+                    numero: Yup.string().max(255).required('Este campo é obrigatório'),
+                    complemento: Yup.string().max(255).required('Este campo é obrigatório'),
+                    cidade: Yup.string().max(255).required('Este campo é obrigatório'),
+                    estado: Yup.string().max(255).required('Este campo é obrigatório')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     console.log('disparou!', values);
@@ -485,6 +494,7 @@ const Form = () => {
                                         Cadastrar
                                     </Button>
                                 </AnimateButton>
+                                <SnackbarAlert />;
                             </Grid>
                         </Grid>
                     </form>
