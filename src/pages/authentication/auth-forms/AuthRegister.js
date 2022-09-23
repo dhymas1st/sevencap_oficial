@@ -93,10 +93,10 @@ const AuthRegister = () => {
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    firstname: Yup.string().max(255).required('First Name is required'),
-                    lastname: Yup.string().max(255).required('Last Name is required'),
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    firstname: Yup.string().max(255).required('Este campo é obrigatório'),
+                    lastname: Yup.string().max(255).required('Este campo é obrigatório'),
+                    email: Yup.string().email('Digite um e-mail válido').max(255).required('Este campo é obrigatório'),
+                    password: Yup.string().max(255).required('Senha obrigatória')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
