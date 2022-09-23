@@ -42,7 +42,7 @@ import SnackbarAlert from 'components/SnackbarAlert';
 const Form = () => {
     const [level, setLevel] = useState();
     const [showPassword, setShowPassword] = useState(false);
-    const [perfil, setPerfil] = useState([]);
+    const [updatePerfil, setUpdatePerfil] = useState([]);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -93,25 +93,30 @@ const Form = () => {
     }
     async function AtualizaPerfil(values) {
         //const infos = JSON.parse(localStorage.getItem('dados'));
-
-        const atualizar = await api.post('login/complete', {
-            email: values.email,
-            nome: values.firstname,
-            sobrenome: values.lastname,
-            cpf: values.cpf,
-            datanasc: values.nascimento,
-            telefone: values.telefone,
-            genero: values.genero,
-            cep: values.cep,
-            tipo_logra: values.tipoendereco,
-            logradouro: values.logradouro,
-            numero: values.numero,
-            complemento: values.complemento,
-            cidade: values.cidade,
-            uf: values.estado
-        });
-        localStorage.setItem('dados', JSON.stringify(atualizar.data[0]));
-        alert('Perfil atualizado com sucesso');
+        try {
+            const atualizar = await api.post('login/complete', {
+                email: values.email,
+                nome: values.firstname,
+                sobrenome: values.lastname,
+                cpf: values.cpf,
+                datanasc: values.nascimento,
+                telefone: values.telefone,
+                genero: values.genero,
+                cep: values.cep,
+                tipo_logra: values.tipoendereco,
+                logradouro: values.logradouro,
+                numero: values.numero,
+                complemento: values.complemento,
+                cidade: values.cidade,
+                uf: values.estado
+            });
+            localStorage.setItem('dados', JSON.stringify(atualizar.data[0]));
+            setUpdatePerfil([true, 'sucesso', 'Perfil atualizado com sucesso']);
+        } catch (err) {
+            console.log(err);
+            setUpdatePerfil([true, 'error', 'erro ao atualizar Perfil']);
+            //alert('erro ao atualizar Perfil');
+        }
     }
     /*
     const handleChange = (event) => {
@@ -494,12 +499,12 @@ const Form = () => {
                                         Cadastrar
                                     </Button>
                                 </AnimateButton>
-                                <SnackbarAlert />;
                             </Grid>
                         </Grid>
                     </form>
                 )}
             </Formik>
+            {updatePerfil[0] === true ? <SnackbarAlert tipo={updatePerfil[1]} title={updatePerfil[2]} /> : ''}
         </>
     );
 };

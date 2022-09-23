@@ -14,15 +14,22 @@ import { EditOutlined, ProfileOutlined, LogoutOutlined, UserOutlined, WalletOutl
 const ProfileTab = ({ handleLogout }) => {
     const theme = useTheme();
     const [logoff, setLogoff] = useState(false);
+    const [perf, setPerf] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
+        if (index == 0 || index == 1) {
+            setPerf(true);
+        }
     };
 
     if (logoff) {
         console.log('deslogado');
 
         return <Navigate to="/login" />;
+    }
+    if (perf) {
+        return <Navigate to="/perfil" />;
     }
 
     return (
