@@ -131,7 +131,7 @@ const Form = () => {
             const cep = values.cep.replace(/[^0-9]/g, '');
             console.log(cep);
             if (cep?.length !== 8) {
-                alert('cep invalido');
+                setUpdatePerfil([true, 'error', 'formato de CEP inválido']);
                 return;
             }
             console.log(values.cep);
@@ -139,7 +139,7 @@ const Form = () => {
             const endereco = await axios.get(viaCep);
             if (endereco.data.erro) {
                 console.log('sim');
-                alert('CEP não localizado!');
+                setUpdatePerfil([true, 'error', 'CEP não encontrado']);
             } else {
                 setFieldValue('logradouro', endereco.data.logradouro);
                 setFieldValue('complemento', endereco.data.complemento);
