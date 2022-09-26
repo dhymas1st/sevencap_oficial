@@ -16,10 +16,10 @@ const pages = {
     type: 'group',
     children: [
         {
-            id: 'bolsa-de-valores-obrigacoes',
-            title: 'Obrigações',
+            id: 'importar-notas',
+            title: 'Importar Notas',
             type: 'item',
-            url: '/bolsa-de-valores-obrigacoes',
+            url: '/importar-notas',
             icon: icons.LoginOutlined,
             breadcrumbs: false
         },

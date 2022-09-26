@@ -64,7 +64,7 @@ const MainRoutes = {
             element: <AntIcons />
         },
         {
-            path: 'bolsa-de-valores-obrigacoes',
+            path: 'importar-notas',
             element: <ExchangeObligations />
         },
         {

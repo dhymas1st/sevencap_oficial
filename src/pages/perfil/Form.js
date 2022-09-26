@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import axios from 'axios';
 
 // material-ui
 import {
@@ -311,20 +312,8 @@ const Form = () => {
                                         onChange={handleChange}
                                         fullWidth
                                     >
-                                        {values.genero === 'Masculino' ? (
-                                            <MenuItem value={'Masculino'} selected>
-                                                Masculino
-                                            </MenuItem>
-                                        ) : (
-                                            <MenuItem value={'Feminino'} selected>
-                                                Feminino
-                                            </MenuItem>
-                                        )}
-                                        {values.genero === 'Feminino' ? (
-                                            <MenuItem value={'Masculino'}>Masculino</MenuItem>
-                                        ) : (
-                                            <MenuItem value={'Feminino'}>Feminino</MenuItem>
-                                        )}
+                                        <MenuItem value="f">Feminino</MenuItem>
+                                        <MenuItem value="m">Masculino</MenuItem>
                                     </Select>
                                     {touched.genero && errors.genero && (
                                         <FormHelperText error id="helper-text-firstname-signup">

@@ -1,5 +1,6 @@
 // material-ui
 import { Grid, Typography } from '@mui/material';
+import TableMyStocks from './TableMyStocks';
 
 // ==============================|| MEUS ATIVOS ||============================== //
 
@@ -10,17 +11,8 @@ const MyInvestments = () => {
             <Grid item xs={12} sx={{ mb: -2.25 }}>
                 <Typography variant="h5">Meus Ativos</Typography>
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={6}>
-                <h1>Teste 2</h1>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={6}>
-                <h1>Teste 2</h1>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={6}>
-                <h1>Teste</h1>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={6}>
-                <h1>Teste</h1>
+            <Grid item xs={12} sx={{ mb: -2.25 }}>
+                <TableMyStocks />
             </Grid>
 
             <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
