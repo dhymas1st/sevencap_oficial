@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import { Snackbar, Alert } from '@mui/material';
 
-const SnackbarAlert = () => {
+const SnackbarAlert = (props) => {
     const [open, setOpen] = useState(true);
     return (
         <>
-            <Snackbar onClose={() => setOpen(false)} autoHideDuration={6000} open={open}>
-                <Alert severity="success">Cadastro realizado com sucesso!</Alert>
+            <Snackbar
+                onClose={() => setOpen(false)}
+                autoHideDuration={6000}
+                open={open}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                sx={{ marginTop: '2.5rem' }}
+            >
+                <Alert severity={props.tipo}>{props.title}</Alert>
             </Snackbar>
         </>
     );

@@ -30,13 +30,14 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import api from 'services/api';
+import SnackbarAlert from 'components/SnackbarAlert';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
 const AuthRegister = () => {
     const [level, setLevel] = useState();
     const [showPassword, setShowPassword] = useState(false);
-    const [account, setAccount] = useState('');
+    const [account, setAccount] = useState([]);
     const [criado, setCriado] = useState('');
 
     const handleClickShowPassword = () => {
@@ -66,21 +67,18 @@ const AuthRegister = () => {
             });
             console.log(cadastro);
             if (cadastro.data === 'usuario criado') {
-                alert('Cadastro criado com sucesso');
+                setAccount([true, 'success', 'Cadastro criado com sucesso']);
+                console.log(account);
             } else {
-                alert('Falha ao criar o cadastro, contato o adminsitrador');
+                setCriado('Falha ao criar o cadastro, email já utilizado');
+                setAccount([true, 'error', 'Falha ao criar o cadastro, email já utilizado']);
             }
-
-            setCriado('usuario criado');
         } catch (err) {
-            alert('Falha ao criar o cadastro, contato o adminsitrador');
-            console.log('nao foi');
-            setAccount('email já utilizado!');
+            setCriado('Falha ao criar o cadastro, email já utilizado');
+            setAccount([true, 'error', 'Falha ao criar o cadastro, email já utilizado']);
         }
     }
-    if (criado === 'usuario criado') {
-        return <Navigate to="/login" />;
-    }
+
     return (
         <>
             <Formik
@@ -282,7 +280,7 @@ const AuthRegister = () => {
                                     </Button>
                                 </AnimateButton>
                                 <Typography color="red" align="center" padding="1rem">
-                                    {account}
+                                    {criado}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
@@ -297,6 +295,7 @@ const AuthRegister = () => {
                     </form>
                 )}
             </Formik>
+            {account[0] === true ? <SnackbarAlert tipo={account[1]} title={account[2]} /> : ''}
         </>
     );
 };
