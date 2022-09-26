@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import axios from 'axios';
 
 // material-ui
 import {
@@ -36,6 +37,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import api from 'services/api';
 import { TextField } from '../../../node_modules/@mui/material/index';
 import SnackbarAlert from 'components/SnackbarAlert';
+import { values } from 'lodash';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
@@ -110,20 +112,50 @@ const Form = () => {
                 cidade: values.cidade,
                 uf: values.estado
             });
+            console.log(atualizar);
             localStorage.setItem('dados', JSON.stringify(atualizar.data[0]));
-            setUpdatePerfil([true, 'sucesso', 'Perfil atualizado com sucesso']);
+            setUpdatePerfil([true, 'success', 'Perfil atualizado com sucesso']);
         } catch (err) {
             console.log(err);
             setUpdatePerfil([true, 'error', 'erro ao atualizar Perfil']);
             //alert('erro ao atualizar Perfil');
         }
     }
-    /*
-    const handleChange = (event) => {
-        console.log(event.target.value);
-        setGenero(event.target.value);
-    };
-    */
+
+    function FormmatCep(event) {
+        //console.log(event.target.value);
+    }
+
+    async function BuscaCep(values, setFieldValue) {
+        try {
+            const cep = values.cep.replace(/[^0-9]/g, '');
+            console.log(cep);
+            if (cep?.length !== 8) {
+                alert('cep invalido');
+                return;
+            }
+            console.log(values.cep);
+            const viaCep = `https://viacep.com.br/ws/${values.cep}/json/`;
+            const endereco = await axios.get(viaCep);
+            if (endereco.data.erro) {
+                console.log('sim');
+                alert('CEP não localizado!');
+            } else {
+                setFieldValue('logradouro', endereco.data.logradouro);
+                setFieldValue('complemento', endereco.data.complemento);
+                setFieldValue('cidade', endereco.data.localidade);
+                setFieldValue('uf', endereco.data.uf);
+                //setFieldValue('bairro', endereco.data.uf);
+                //acrescentar bairro acima
+            }
+
+            console.log(endereco);
+        } catch (err) {
+            console.log('error: ', err);
+            // acrescentar alert de CEP invalido
+        }
+    }
+
     /*
                                     <Select
                                         value={genero}
@@ -151,10 +183,10 @@ const Form = () => {
                     telefone: Yup.string().max(255),
                     genero: Yup.string().max(255),
                     cep: Yup.string().max(255).required('Este campo é obrigatório'),
-                    tipoendereco: Yup.string().max(255),
+                    // tipoendereco: Yup.string().max(255),
                     logradouro: Yup.string().max(255).required('Este campo é obrigatório'),
                     numero: Yup.string().max(255).required('Este campo é obrigatório'),
-                    complemento: Yup.string().max(255).required('Este campo é obrigatório'),
+                    // complemento: Yup.string().max(255).required('Este campo é obrigatório'),
                     cidade: Yup.string().max(255).required('Este campo é obrigatório'),
                     estado: Yup.string().max(255).required('Este campo é obrigatório')
                 })}
@@ -172,7 +204,7 @@ const Form = () => {
                     }
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, setFieldValue }) => (
                     <form noValidate onSubmit={handleSubmit}>
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={6}>
@@ -346,7 +378,7 @@ const Form = () => {
                                         type="cep"
                                         value={values.cep}
                                         name="cep"
-                                        onBlur={handleBlur}
+                                        onBlur={() => BuscaCep(values, setFieldValue)}
                                         onChange={handleChange}
                                         placeholder="Digite o seu CEP"
                                         fullWidth

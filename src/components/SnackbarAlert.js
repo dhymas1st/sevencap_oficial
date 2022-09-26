@@ -10,7 +10,7 @@ const SnackbarAlert = (props) => {
                 autoHideDuration={6000}
                 open={open}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                sx={{ marginTop: '1rem' }}
+                sx={{ marginTop: '2.5rem' }}
             >
                 <Alert severity={props.tipo}>{props.title}</Alert>
             </Snackbar>
