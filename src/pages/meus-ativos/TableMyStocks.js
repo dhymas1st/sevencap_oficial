@@ -288,14 +288,14 @@ export default function TableMyStocks() {
             <Table aria-label="collapsible table">
                 <TableHead>
                     <TableRow>
-                        <TableCell />
-                        <TableCell>Ativo</TableCell>
-                        <TableCell align="right">Cotação</TableCell>
+                        <TableCell align="center">Ativo</TableCell>
                         <TableCell align="right">Quantidade</TableCell>
-                        <TableCell align="right">Custo</TableCell>
+                        <TableCell align="right">Cotação</TableCell>
                         <TableCell align="right">Preço médio</TableCell>
+                        <TableCell align="right">Custo</TableCell>
+                        <TableCell align="right">Valor</TableCell>
                         <TableCell align="right">Lucro</TableCell>
-                        <TableCell align="right">Total</TableCell>
+                        <TableCell align="center">Rentabilidade</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
