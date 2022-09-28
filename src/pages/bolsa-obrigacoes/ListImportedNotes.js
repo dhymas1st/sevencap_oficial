@@ -1,15 +1,35 @@
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
-
+import { useEffect, useState } from 'react';
+import api from '../../services/api';
 const ListImportedNotes = () => {
+    const [notas, SetNotas] = useState([]);
+
+    useEffect(() => {
+        const dados = JSON.parse(localStorage.getItem('dados'));
+
+        api.get(`/${dados.cpf}/notas`).then((res) => {
+            console.log(res.data);
+            SetNotas(res.data);
+        });
+    }, []);
     return (
         <TableContainer component={Paper} sx={{ maxHeight: '300', mt: 4 }}>
             <Table aria-label="semple table" stickyHeader>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Data Upload</TableCell>
+                        <TableCell align="right">Nome do Arquivo</TableCell>
+                        <TableCell align="right">Status</TableCell>
+                        <TableCell align="right">Editar</TableCell>
+                    </TableRow>
+                </TableHead>
                 <TableBody>
-                    {tableData.map((row) => (
-                        <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell align="center">{row.id}</TableCell>
-                            <TableCell>{row.number_note}</TableCell>
-                            <TableCell>{row.message_notification}</TableCell>
+                    {notas.map((row, i) => (
+                        <TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell>{row.data_upload.substr(0, 10).split('-').reverse().join('/')}</TableCell>
+                            <TableCell>{row.nome_original_arquivo}</TableCell>
+                            <TableCell>{row.status}</TableCell>
+                            <TableCell>icon</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
