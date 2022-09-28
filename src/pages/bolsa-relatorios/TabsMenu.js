@@ -641,10 +641,10 @@ api.post('/getResumoFinanceiro', {
                 const emolumentos = parseFloat(item.transactions[0].fees);
                 const taxas = parseFloat(item.transactions[0].taxes);
                 const TaxasTotal = parseFloat(item.transactions[0].taxes);
-                const taxasLiquida = parseFloat(item.transactions[0].taxes);
+                const taxasLiquida = parseFloat(item.transactions[0].liquidation_fee);
                 const taxasOperacao = parseFloat(item.transactions[0].taxes);
-                const taxasRegistro = parseFloat(item.transactions[0].taxes);
-                const outros = parseFloat(item.transactions[0].taxes);
+                const taxasRegistro = parseFloat(item.transactions[0].fees);
+                const outros = parseFloat(item.transactions[0].outros);
                 return {
                     id: id,
                     paper: item.papper,
@@ -653,11 +653,11 @@ api.post('/getResumoFinanceiro', {
                     vlr_unit: avg.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     price: valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     tipo: tipo,
-                    emolumnts: emolumentos.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    taxes: taxas.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    emolumnts: 'a corrigir', //emolumentos.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    taxes: 'a corrigir', //taxas.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     total_taxes: TaxasTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     tx_liquid: taxasLiquida.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    tx_operation: taxasOperacao.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    tx_operation: 'a corrigir', //taxasOperacao.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     tx_reg: taxasRegistro.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     others: outros.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
                 };

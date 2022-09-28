@@ -38,7 +38,7 @@ const ListImportedNotes = () => {
                         <TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                             <TableCell>{row.data_upload.substr(0, 10).split('-').reverse().join('/')}</TableCell>
                             <TableCell>{row.nome_original_arquivo}</TableCell>
-                            <TableCell>{row.status === 'S' ? 'Nota ainda em processamento' : 'Nota lida com sucesso'}</TableCell>
+                            <TableCell>{row.status === 'S' ? 'Nota lida com sucesso' : 'Nota ainda em processamento'}</TableCell>
                             <TableCell>
                                 <IconButton onClick={handleClick}>
                                     <DeleteIcon />
