@@ -72,6 +72,10 @@ const MainRoutes = {
             element: <ExchangeReports />
         },
         {
+            path: 'bolsa-de-valores-historico',
+            element: <ExchangeReports />
+        },
+        {
             path: 'assistente-virtual',
             element: <VirtualAssistant />
         },

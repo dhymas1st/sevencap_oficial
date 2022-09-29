@@ -30,6 +30,14 @@ const pages = {
             url: '/bolsa-de-valores-relatorios',
             icon: icons.CopyOutlined,
             breadcrumbs: false
+        },
+        {
+            id: 'bolsa-de-valores-historico',
+            title: 'Histórico',
+            type: 'item',
+            url: '/bolsa-de-valores-historico',
+            icon: icons.LoginOutlined,
+            breadcrumbs: false
         }
     ]
 };
