@@ -638,7 +638,7 @@ api.post('/getResumoFinanceiro', {
                 const outras = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_outras), 0);
                 */
                 const tipo = item.transactions[0].debit_credit;
-                const emolumentos = parseFloat(item.transactions[0].fees);
+                const emolumentos = parseFloat(item.transactions[0].liquidation_fee);
                 const taxas = parseFloat(item.transactions[0].taxes);
                 const TaxasTotal = parseFloat(item.transactions[0].taxes);
                 const taxasLiquida = parseFloat(item.transactions[0].liquidation_fee);
@@ -653,10 +653,10 @@ api.post('/getResumoFinanceiro', {
                     vlr_unit: avg.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     price: valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     tipo: tipo,
-                    emolumnts: 'a corrigir', //emolumentos.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    emolumnts: emolumentos.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     taxes: 'a corrigir', //taxas.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     total_taxes: TaxasTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    tx_liquid: taxasLiquida.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                    tx_liquid: 'a corrigir', //taxasLiquida.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     tx_operation: 'a corrigir', //taxasOperacao.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     tx_reg: taxasRegistro.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
                     others: outros.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
@@ -676,6 +676,8 @@ api.post('/getResumoFinanceiro', {
                     taxa de operacao  -  tx_operation
                     taxa de registro  -  tx_reg
                     outas  -  others
+
+                    liquidation_fee - Emoluments
 
                 */
             console.log(dadostabela);
