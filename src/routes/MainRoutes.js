@@ -11,6 +11,7 @@ import OffshoreObligations from 'pages/offshore-obrigacoes/index';
 import OffshoreReports from 'pages/offshore-relatorios/index';
 import Summary from 'pages/resumo/index';
 import Perfil from 'pages/perfil/index';
+import Historic from 'pages/bolsa-historico/index';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -73,7 +74,7 @@ const MainRoutes = {
         },
         {
             path: 'bolsa-de-valores-historico',
-            element: <ExchangeReports />
+            element: <Historic />
         },
         {
             path: 'assistente-virtual',
