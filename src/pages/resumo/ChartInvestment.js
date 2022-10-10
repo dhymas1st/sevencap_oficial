@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, Paper } from '@mui/material';
-import { Chart } from 'react-google-charts';
+//import { Chart } from 'react-google-charts';
 import _ from 'lodash';
 
 export const options = {
@@ -42,7 +42,7 @@ function ChartInvestment() {
                         padding: 2
                     }}
                 >
-                    <Chart chartType="PieChart" data={chartData} width="100%" height="460px" options={options} />
+                    {/* <Chart chartType="PieChart" data={chartData} width="100%" height="460px" options={options} /> */}
                 </Box>
             </Paper>
         </>

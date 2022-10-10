@@ -7,6 +7,7 @@ import { LicenseInfo } from '@mui/x-license-pro';
 import CollapsibleTable from './CollapsibleTable';
 import api from 'services/api';
 import { object } from 'prop-types';
+import { map } from 'lodash';
 
 LicenseInfo.setLicenseKey('f88f009b072cafbc44cd21b892432a8cTz00NjIwNCxFPTE2ODc2MTgyMDc3ODgsUz1wcm8sTE09c3Vic2NyaXB0aW9uLEtWPTI=');
 
@@ -58,6 +59,12 @@ const columnsVrMean = [
         editable: true
     },
     {
+        field: 'tipo',
+        headerName: 'Tipo',
+        width: 110,
+        editable: true
+    },
+    {
         field: 'quantity',
         headerName: 'Quantidade',
         type: 'number',
@@ -66,7 +73,7 @@ const columnsVrMean = [
     },
     {
         field: 'vlr_unit',
-        headerName: 'Preço Medio',
+        headerName: 'Preço medio',
         type: 'number',
         width: 110,
         editable: true
@@ -80,8 +87,16 @@ const columnsVrMean = [
         editable: true
     },
     {
-        field: 'tipo',
-        headerName: 'Tipo',
+        field: 'liquid_taxes',
+        headerName: 'Taxas liquidas',
+        type: 'number',
+        width: 110,
+        editable: true
+    },
+    {
+        field: 'register_taxes',
+        headerName: 'Taxas de Registro',
+        type: 'number',
         width: 110,
         editable: true
     },
@@ -91,38 +106,11 @@ const columnsVrMean = [
         type: 'number',
         width: 110,
         editable: true
-    },
-    {
-        field: 'taxes',
-        headerName: 'Taxas',
-        type: 'number',
-        width: 110,
-        editable: true
-    },
-    {
-        field: 'total_taxes',
-        headerName: 'Total de Taxas',
-        type: 'number',
-        width: 110,
-        editable: true
-    },
-    {
-        field: 'tx_liquid',
-        headerName: 'Taxa Liquida',
-        type: 'number',
-        width: 110,
-        editable: true
-    },
+    }
+    /*
     {
         field: 'tx_operation',
-        headerName: 'Taxa de Operação',
-        type: 'number',
-        width: 110,
-        editable: true
-    },
-    {
-        field: 'tx_reg',
-        headerName: 'Taxa de Registro',
+        headerName: 'Corretagem',
         type: 'number',
         width: 110,
         editable: true
@@ -134,6 +122,7 @@ const columnsVrMean = [
         width: 110,
         editable: true
     }
+    */
 ];
 
 const rowsTest = [
@@ -552,6 +541,22 @@ const rowsVrMean = [
     }
 ];
 
+const tabtest = [
+    {
+        id: 1,
+        paper: 'titulo',
+        tipo: 'D',
+        quantity: 23,
+        vlr_unit: 10,
+        price: 12,
+        liquid_taxes: 5,
+        register_taxes: 2,
+        emolumnts: 3
+        //tx_operation: 2,
+        //  others: 4
+    }
+];
+
 export const TabsMenu = () => {
     const [value, setValue] = useState('1');
     //const [Columns, setColumns] = useState([]);
@@ -561,30 +566,200 @@ export const TabsMenu = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const [taxas, setTaxas] = useState([]);
     const [operations, setOperations] = useState([]);
+    const [groupOperations, setGroupOperations] = useState([]);
+
+    let table2 = [];
 
     useEffect(() => {
-        api.post('/getOperacoesbyClient', { cpf: dados.cpf }).then((res) => {
-            let datas = res.data;
-            let inf = [];
-            /*const infos = res.data.reduce((acc, item) => {
+        const CapturaNotas = async () => {
+            const ncs = await api.post('/getOperacoesbyClient', { cpf: dados.cpf }).then((res) => {
+                let ordens = res.data;
+                return ordens;
+            });
+
+            return ncs;
+        };
+        let notax = [];
+        const TaxaNotas = async () => {
+            const notas = await CapturaNotas();
+            await notas.map(async (item, i, arr) => {
+                const resumoF = await api.post('/getResumoFinanceiro', { cpf: dados.cpf, nr_nota: item.numero_nf }).then((res) => {
+                    const resumoFin = res.data[0];
+                    const nota = {
+                        id: i,
+                        paper: item.titulo,
+                        tipo: item.tipo_operacao === 'C' ? 'Compra' : 'Venda',
+                        quantity: parseInt(item.quantidade),
+                        vlr_unit: parseFloat(item.preco).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                        price: parseFloat(item.valor).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+                        liquid_taxes: parseFloat(resumoFin.vlr_tx_liquidacao).toLocaleString('pt-br', {
+                            style: 'currency',
+                            currency: 'BRL'
+                        }), // taxa liquida
+                        register_taxes: parseFloat(resumoFin.vlr_tx_registro).toLocaleString('pt-br', {
+                            style: 'currency',
+                            currency: 'BRL'
+                        }),
+                        emolumnts: parseFloat(resumoFin.vlr_emolumentos).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+                        //numero_nf: item.numero_nf,
+                        //tipo_operacao: item.tipo_operacao,
+                        //data_pregao: item.data_pregao,
+                        //vlr_liquido_operacoes: resumoFin.vlr_liquido_operacoes,
+                        //vlr_cblc: resumoFin.vlr_cblc,
+                        //vlr_ana: resumoFin.vlr_ana,
+                        //vlr_bovesppa: resumoFin.vlr_bovesppa,
+                        //vlr_total_liquido: resumoFin.vlr_total_liquido
+                    };
+                    //operations.push(nota);
+                    table2.push(nota);
+                    setOperations((current) => [...current, nota]);
+                });
+                /*
+
+                const dadostb = operations.map((item, array, i) => {
+                    console.log(item);
+                    const id = operations.findIndex((el) => el.titulo == item.titulo);
+                    console.log(id);
+                });
+
+                console.log(operations);
+
+                operations.map((item, arr, i) => {
+                    if (groupOperations.find((el) => el.paper == item.titulo)) {
+                        const index = operations.findIndex((el) => el.papper === item.titulo);
+                        operations[index].transactions.push(item);
+                    } else {
+                        groupOperations.push({
+                            papper: item.titulo,
+                            transactions: [item]
+                        });
+
+                        setGroupOperations(...groupOperations);
+                    }
+                });
+
+
+                */
+                // const quantidade = item.transactions.reduce((acc, item) => acc + parseInt(item.quantidade), 0);
+                // const preco = item.transactions.reduce((acc, item) => acc + parseFloat(item.preco), 0);
+                // const valor = item.transactions.reduce((acc, item) => acc + parseFloat(item.valor), 0);
+                // const avg = preco / item.transactions.length;
+                /*
+                notax['numero_nf'] = item.numero_nf;
+                notax['data_pregao'] = item.data_pregao;
+                notax['tipo'] = item.debit_credit;
+                notax['quantidade'] = item.quantidade;
+                notax['tipo_operacao'] = item.tipo_operacao;
+                notax['valor'] = item.valor;
+                notax['titulo'] = item.titulo;
+                notax['preco'] = item.preco;
+                //valor liquido de operações
+                notax['vlr_liquido_operacoes'] = resumoF.vlr_liquido_operacoes;
+                //taxa de liquidação
+                notax['vlr_tx_liquidacao'] = resumoF.vlr_tx_liquidacao; // taxa liquida
+                //taxa de registro
+                notax['vlr_tx_registro'] = resumoF.vlr_tx_registro;
+                //total CBLC
+                notax['vlr_cblc'] = resumoF.vlr_cblc;
+
+                //taxa termo/opções
+                // ?
+                //taxa ana
+                notax['vlr_ana'] = resumoF.vlr_ana;
+                //emolumento
+                notax['vlr_emolumentos'] = resumoF.vlr_emolumentos;
+                //total bovespa
+                notax['vlr_bovesppa'] = resumoF.vlr_bovesppa;
+
+                //clearing
+                // ??
+                //execução
+                // 0E
+                //execução casa
+                // 0
+                //ISS (SP)
+                // OBSERVAÇÃO PARA OUTROS SENDO CARREGADO VAZIO OU NAO IMPORTADO CORRETAMENTE
+                //IRRF
+                // OBSERVAÇÃO PARA IRRF SENDO CARREGADO VAZIO OU NAO IMPORTADO CORRETAMENTE
+                //outras bovespa
+                // OBSERVAÇÃO PARA OUTROS SENDO CARREGADO VAZIO OU NAO IMPORTADO CORRETAMENTE
+                //total de corretage/despesas
+                //liquido
+                notax['vlr_total_liquido'] = resumoF.vlr_total_liquido;
+                const getTaxa = taxas;
+
+                // total de taxas = preço - preço com taxa
+                taxas.push(notax);
+                setTaxas((taxas) => notax);
+                */
+                //console.log(taxas);
+                //taxas.push(notax);
+                //console.log(taxas);
+                /**
+                 * fazer uma API no back - nod
+                 * Dados fake no banco para exibir
+                 * notas
+                 * pegar PDF, extrair, transferir via XML
+                 */
+
+                // console.log(taxas);
+            });
+            console.log('map conclued');
+        };
+
+        TaxaNotas();
+
+        /*
+        taxas.map((item, arr, i) => {
+            if (inf.find((el) => el.papper == item.titulo)) {
+                console.log(el);
+                const index = inf.findIndex((el) => el.papper === item.titulo);
+                inf[index].transactions.push(item);
+            } else {
+                inf.push({
+                    papper: item.titulo,
+                    transactions: [item]
+                });
+            }
+        });
+
+        */
+
+        /*
+        const CapturaTaxas = async () => {
+            CapturaNotas.map(item)
+            api.post('/getOperacoesbyClient', { cpf: dados.cpf, nr_nota:   }).then((res) => {
+                let ordens = res.data;
+                return ordens.numero_nf;
+        }
+        }
+  */
+        // api.post('/getOperacoesbyClient', { cpf: dados.cpf }).then((res) => {
+        // let ordens = res.data;
+        //let nota = ordens.numero_nf;
+        //      console.log(ordens);
+        /*const infos = res.data.reduce((acc, item) => {
                 if (!inf.find((el) => el == item.titulo)) {
                     console.log(item.titulo);
                     inf.push(item.titulo);
                 }
                 console.log(inf);
                 */
-            datas.map((item, arr, i) => {
-                if (inf.find((el) => el.papper == item.titulo)) {
-                    const index = inf.findIndex((el) => el.papper === item.titulo);
-                    inf[index].transactions.push(item);
-                } else {
-                    inf.push({
-                        papper: item.titulo,
-                        transactions: [item]
-                    });
-                }
-                /*
+        // fazer requisisao a outra api / getResumoFinanceiro
+        // ordens.map((item, arr, i) => {
+        //     if (inf.find((el) => el.papper == item.titulo)) {
+        //         const index = inf.findIndex((el) => el.papper === item.titulo);
+        //         inf[index].transactions.push(item);
+        //     } else {
+        //         inf.push({
+        //             papper: item.titulo,
+        //             transactions: [item]
+        //         });
+        //     }
+
+        /*
 api.post('/getResumoFinanceiro', {
                             cpf: el.cpf_cnpj,
                             nr_nota: el.numero_nf
@@ -593,12 +768,12 @@ api.post('/getResumoFinanceiro', {
                             console.log(el);
                         });
                         */
-                //api.post('/getResFinOp');
-                //setDados(inf);
-            });
+        //api.post('/getResFinOp');
+        //setDados(inf);
+        // });
 
-            let acoes = [];
-            /* Busca Resumos FIn
+        // let acoes = [];
+        /* Busca Resumos FIn
             inf.map((item) => {
                 item.transactions.reduce((acc, el) => {
                     console.log(Acoes);
@@ -617,53 +792,55 @@ api.post('/getResumoFinanceiro', {
                             papper: el.numero_nf
                         });
                     }
+
                 }, []);
+
             });
             */
 
-            const dadostabela = inf.map((item, array, i) => {
-                const id = inf.findIndex((el) => el.papper == item.papper);
-                const quantidade = item.transactions.reduce((acc, item) => acc + parseInt(item.quantidade), 0);
-                const preco = item.transactions.reduce((acc, item) => acc + parseFloat(item.preco), 0);
-                const valor = item.transactions.reduce((acc, item) => acc + parseFloat(item.valor), 0);
-                const avg = preco / item.transactions.length;
+        // const dadostabela = inf.map((item, array, i) => {
+        //     const id = inf.findIndex((el) => el.papper == item.papper);
+        //     const quantidade = item.transactions.reduce((acc, item) => acc + parseInt(item.quantidade), 0);
+        //     const preco = item.transactions.reduce((acc, item) => acc + parseFloat(item.preco), 0);
+        //     const valor = item.transactions.reduce((acc, item) => acc + parseFloat(item.valor), 0);
+        //     const avg = preco / item.transactions.length;
 
-                /*
-                const emoluentes = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_emolumento), 0);
-                const taxas = item.transactions.reduce((acc, item) => acc + parseFloat(item.taxes), 0);
-                const TaxasTotal = item.transactions.reduce((acc, item) => acc + parseFloat(item.taxes), 0);
-                const taxasLiquida = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_liquid), 0);
-                const taxasOperacao = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_impostos), 0);
-                const taxasRegistro = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_registro), 0);
-                const outras = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_outras), 0);
-                */
-                const tipo = item.transactions[0].debit_credit;
-                const emolumentos = parseFloat(item.transactions[0].liquidation_fee);
-                const taxas = parseFloat(item.transactions[0].taxes);
-                const TaxasTotal = parseFloat(item.transactions[0].taxes);
-                const taxasLiquida = parseFloat(item.transactions[0].liquidation_fee);
-                const taxasOperacao = parseFloat(item.transactions[0].taxes);
-                const taxasRegistro = parseFloat(item.transactions[0].fees);
-                const outros = parseFloat(item.transactions[0].outros);
-                return {
-                    id: id,
-                    paper: item.papper,
-                    quantity: quantidade,
-                    //vlr_unit: preco,
-                    vlr_unit: avg.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    price: valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    tipo: tipo,
-                    emolumnts: emolumentos.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    taxes: 'a corrigir', //taxas.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    total_taxes: TaxasTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    tx_liquid: 'a corrigir', //taxasLiquida.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    tx_operation: 'a corrigir', //taxasOperacao.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    tx_reg: taxasRegistro.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-                    others: outros.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-                };
-            });
+        //     /*
+        //     const emoluentes = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_emolumento), 0);
+        //     const taxas = item.transactions.reduce((acc, item) => acc + parseFloat(item.taxes), 0);
+        //     const TaxasTotal = item.transactions.reduce((acc, item) => acc + parseFloat(item.taxes), 0);
+        //     const taxasLiquida = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_liquid), 0);
+        //     const taxasOperacao = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_impostos), 0);
+        //     const taxasRegistro = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_registro), 0);
+        //     const outras = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_outras), 0);
+        //     */
+        //     const tipo = item.transactions[0].debit_credit;
+        //     const emolumentos = parseFloat(item.transactions[0].liquidation_fee);
+        //     const taxas = parseFloat(item.transactions[0].taxes);
+        //     const TaxasTotal = parseFloat(item.transactions[0].taxes);
+        //     const taxasLiquida = parseFloat(item.transactions[0].liquidation_fee);
+        //     const taxasOperacao = parseFloat(item.transactions[0].taxes);
+        //     const taxasRegistro = parseFloat(item.transactions[0].fees);
+        //     const outros = parseFloat(item.transactions[0].outros);
+        //     return {
+        //         id: id,
+        //         paper: item.papper,
+        //         quantity: quantidade,
+        //         //vlr_unit: preco,
+        //         vlr_unit: avg.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+        //         price: valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+        //         tipo: tipo,
+        //         emolumnts: emolumentos.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+        //         taxes: 'a corrigir', //taxas.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+        //         total_taxes: TaxasTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+        //         tx_liquid: 'a corrigir', //taxasLiquida.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+        //         tx_operation: 'a corrigir', //taxasOperacao.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+        //         tx_reg: taxasRegistro.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+        //         others: outros.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+        //     };
+        // });
 
-            /*
+        /*
                     id - id
                     empresa - paper
                     quantidade  -  quantity
@@ -680,10 +857,11 @@ api.post('/getResumoFinanceiro', {
                     liquidation_fee - Emoluments
 
                 */
-            console.log(dadostabela);
-            setRows(dadostabela);
-        }, []);
+        //console.log(dadostabela);
+        // setRows(dadostabela);
     }, []);
+    //console.log(Rows);
+    console.log(operations);
     console.log(Rows);
     return (
         <Box>
@@ -699,7 +877,7 @@ api.post('/getResumoFinanceiro', {
                 <TabPanel value="1">
                     <Box sx={{ height: 500, width: '100%' }}>
                         <DataGridPro
-                            rows={Rows}
+                            rows={operations}
                             columns={columnsVrMean}
                             pageSize={5}
                             rowsPerPageOptions={[5]}
