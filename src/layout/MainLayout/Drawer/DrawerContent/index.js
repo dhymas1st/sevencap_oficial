@@ -11,7 +11,7 @@ const DrawerContent = () => (
             '& .simplebar-content': {
                 display: 'flex',
                 flexDirection: 'column',
-                backgroundColor: '#042962',
+                backgroundColor: '#2198F3',
                 height: '100vh'
             }
         }}

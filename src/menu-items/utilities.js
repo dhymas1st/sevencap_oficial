@@ -27,23 +27,23 @@ const icons = {
 // ==============================|| MENU ITEMS - UTILITIES ||============================== //
 
 const utilities = {
-    id: 'offshore',
-    title: 'Offshore',
+    id: 'cadastro',
+    title: 'Cadastro',
     type: 'group',
     children: [
         {
-            id: 'offshore-obrigacoes',
-            title: 'Obrigações',
+            id: 'empresas',
+            title: 'Empresas',
             type: 'item',
-            url: '/offshore-obrigacoes',
+            url: '/empresas',
             icon: icons.LoginOutlined,
             breadcrumbs: false
         },
         {
-            id: 'offshore-relatorios',
-            title: 'Relatórios',
+            id: 'clientes',
+            title: 'Clientes',
             type: 'item',
-            url: '/offshore-relatorios',
+            url: '/clientes',
             icon: icons.CopyOutlined,
             breadcrumbs: false
         }

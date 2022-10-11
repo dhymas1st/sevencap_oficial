@@ -12,6 +12,8 @@ import OffshoreReports from 'pages/offshore-relatorios/index';
 import Summary from 'pages/resumo/index';
 import Perfil from 'pages/perfil/index';
 import Historic from 'pages/bolsa-historico/index';
+import Home from 'pages/home/index';
+import NotesReceived from 'pages/notas-recebidas/index';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -99,6 +101,14 @@ const MainRoutes = {
         {
             path: 'perfil',
             element: <Perfil />
+        },
+        {
+            path: 'home',
+            element: <Home />
+        },
+        {
+            path: 'notas-recebidas',
+            element: <NotesReceived />
         }
     ]
 };
